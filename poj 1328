@@ -1,0 +1,76 @@
+#include<iostream>
+#include<cstring>
+#include<vector>
+#include<map>
+#include<string>
+#include<algorithm>
+#include<cmath>
+#include<stack>
+#include<queue>
+#define LLI long long int
+using namespace std;
+
+struct interval{
+	double left, right;
+};
+interval I[1005];
+int N;
+LLI d;
+bool cmp(interval i1, interval i2)
+{
+	if (i1.left == i2.left)
+		return i1.right < i2.right;
+	return i1.left < i2.left;
+}
+
+int main()
+{
+	int countcase = 0;
+	
+	while (scanf("%d%lld", &N, &d) && (N || d))
+	{
+		int ans = 1;
+		LLI x, y;
+		LLI dd = d*d;
+		double delta_x;
+		for (int i = 1; i <= N; i++)
+		{
+			scanf("%lld%lld", &x, &y);
+			if (y > d)
+			{
+				ans = -1;
+				for (int j = i + 1; j <= N;j++)
+					scanf("%lld%lld", &x, &y);
+				break;
+			}
+			delta_x = sqrt(1.0*(dd - y*y));
+			I[i].left = 1.0*x - delta_x;
+			I[i].right = 1.0*x + delta_x;
+		}
+		
+		if (ans != -1)
+		{
+			sort(I + 1, I + N + 1, cmp);
+			double left = I[1].left;
+			double right = I[1].right;
+			for (int i = 2; i <= N; i++)
+			{
+				if (I[i].left <= right)
+				{
+					left = I[i].left;
+					if (I[i].right <= right)
+						right = I[i].right;
+				}
+				else {
+					ans++;
+					left = I[i].left;
+					right = I[i].right;
+				}
+			}
+		}
+		printf("Case %d: %d\n", ++countcase, ans);
+	}
+
+
+	return 0;
+}
