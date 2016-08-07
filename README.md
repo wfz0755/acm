@@ -6,3 +6,4 @@ This is a study note for poj exercise.
 aims：
 1.做google工程师
 2.日语N1（学完初级中级）
+3.acm进入world final
